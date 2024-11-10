@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Main Page{% endblock title %}</title>
+    <style>
+        /* Reset and general styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f1f4f8;
+            color: #333;
+            font-size: 16px;
+        }
+
+        /* Navigation bar */
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 1rem;
+        }
+
+        .nav-bar header a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            margin: 0 0.5rem;
+            border-radius: 5px;
+            background-color: #444;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-bar header a:hover {
+            background-color: #555;
+        }
+
+        /* Container for content */
+        .con {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        /* Card container with flexbox to display cards side by side */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        /* Card styling */
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            width: 100%;
+            max-width: 300px; /* Controls the width of each card */
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border-left: 4px solid #007bff;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h1 {
+            font-size: 1.8rem;
+            color: #007bff;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .card h2, .card h3, .card h4, .card h5, .card p {
+            color: #555;
+            margin: 0.25rem 0;
+            font-size: 1rem;
+        }
+
+        .card h2 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .card a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .card a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .card button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 1.5rem;
+            align-self: stretch;
+        }
+
+        .card button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Add Trip button styling */
+        .add-trip-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-bottom: 2rem;
+        }
+
+        .add-trip-button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Not logged in message styling */
+        .not {
+            margin-top: 100px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .not h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #b30000;
+        }
+
+        .not p {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+
+        .auth-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .auth-buttons a {
+            padding: 0.75rem 1.5rem;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-buttons a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .nav-bar {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 90%;
+            }
+
+            .auth-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-bar">
+        <header><a href="{% url 'Base-Page' %}">Main Page</a></header>
+        <header><a href="#">Button2</a></header>
+        <header><a href="{% url 'logout' %}">Log out</a></header>
+    </div>
+
+    <div class="con">
+        {% block content %}
+        {% if user.is_authenticated %}
+            <a href="{% url 'Add-Trip' %}"><button class="add-trip-button">Add Trip</button></a>
+            {% if object_list %}
+                <div class="card-container">
+                    {% for trip in object_list %}
+                        <div class="card">
+                            <h1><a href="{% url 'Detail-Trip' trip.id %}">{{ trip.name }}</a></h1>
+                            <h2>Start: {{ trip.start_location }}</h2>
+                            <h3>End: {{ trip.end_location }}</h3>
+                            <h4>Date: {{ trip.date_run }}</h4>
+                            <h5>Seats available: {{ trip.seats_available }}</h5>
+                            <p>Posted at: {{ trip.posted_at }}</p>
+                            <p>Status: {{ trip.is_active }}</p>
+                            <a href="{% url 'Book-Trip' trip.id %}"><button>Book Now</button></a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <h2 style="text-align: center; margin-top: 260px; color: #b30000;">No trips available at the moment.</h2>
+            {% endif %}
+        {% else %}
+            <div class="not">
+                <h1>You are not logged in yet!</h1>
+                <p>You cannot enter without being registered.</p>
+                <div class="auth-buttons">
+                    <a href="{% url 'login' %}">Log in</a>
+                    <a href="{% url 'Sign-Up' %}">Sign up</a>
+                </div>
+            </div>
+        {% endif %}
+        {% endblock content %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Detail Trip{% endblock title %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+    }
+
+    .container p,
+    .container h1,
+    .container h2,
+    .container h3,
+    .container h4,
+    .container h5,
+    .container h6 {
+        color: #333;
+        margin-bottom: 1rem;
+    }
+
+    .container h1 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .container h2 {
+        font-size: 1.5rem;
+    }
+
+    .container h3,
+    .container h4,
+    .container h5,
+    .container h6 {
+        font-size: 1.2rem;
+    }
+
+    .container p {
+        font-size: 1rem;
+        color: #666;
+    }
+
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .button-group a {
+        text-decoration: none;
+    }
+
+    button {
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .edit-btn {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .delete-btn {
+        background-color: #e74c3c;
+        color: #fff;
+    }
+
+    button:hover {
+        opacity: 0.8;
+    }
+
+    .edit-btn:hover {
+        background-color: #0056b3;
+    }
+
+    .delete-btn:hover {
+        background-color: #c0392b;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 1rem;
+        }
+
+        .container h1 {
+            font-size: 1.5rem;
+        }
+
+        .container h2 {
+            font-size: 1.2rem;
+        }
+
+        .button-group {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+</style>
+
+<div class="container">
+    <p><strong>Trip ID:</strong> {{ trip.id }}</p>
+    <h1>{{ trip.name }}</h1>
+    <h2><strong>Start:</strong> {{ trip.start_location }}</h2>
+    <h3><strong>End:</strong> {{ trip.end_location }}</h3>
+    <h4><strong>Date of Travel:</strong> {{ trip.date_run }}</h4>
+    <h5><strong>Seats Available:</strong> {{ trip.seats_available }}</h5>
+    <h6><strong>Description:</strong> {{ trip.description }}</h6>
+    <h6><strong>Price:</strong> ${{ trip.price }}</h6>
+    <p><strong>Posted At:</strong> {{ trip.posted_at }}</p>
+
+    <div class="button-group">
+        <a href="{% url 'Edit-Trip' trip.id %}">
+            <button class="edit-btn">Edit</button>
+        </a>
+        <a href="{% url 'Delete-Trip' trip.id %}">
+            <button class="delete-btn">Delete</button>
+        </a>
+        <a href="{% url 'Book-Trip' trip.id %}"><button>Book Now</button></a>
+        <a href="{% url 'Base-Page' %}"><button>Main Page</button></a>
+    </div>
+</div>
+{% endblock content %}

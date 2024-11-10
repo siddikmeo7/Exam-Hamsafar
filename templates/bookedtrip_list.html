@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Booked Trips{% endblock title %}
+{% block content %}
+    <div class="container">
+        {% for trip in object_list %}
+          <div class="card">
+            <h1>Trip:{{trip.trip}}</h1>
+            <h2>User:{{trip.user}}</h2>
+            <h3>Phone number:{{trip.phone_number}}</h3>
+            <h4>Message:{{trip.message}}</h4>
+          </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
+
