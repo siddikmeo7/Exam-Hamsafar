@@ -35,10 +35,10 @@ class BookTrip(generic.CreateView):
     template_name = "book_trip_form.html"
     success_url = reverse_lazy('Base-Page')
 
-class BookedTripView(generic.ListView):
-    model = BookTrip 
-    fields = "__all__"
-    template_name = 'booked_trips.html'
+class BookedTripsListView(generic.ListView):
+    model = BookTrip
+    fields = ["__all__"]
+    template_name = "bookedtrips_list.html"
 
 
 def user_logout(request):

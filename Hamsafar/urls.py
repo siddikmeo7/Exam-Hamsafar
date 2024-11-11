@@ -8,6 +8,8 @@ urlpatterns = [
     path('edittrip/<int:pk>',EditTrip.as_view(),name='Edit-Trip'),
     path('deletetrip/<int:pk>',DeleteTrip.as_view(),name='Delete-Trip'),
     path('booktrip/<int:pk>/', BookTrip.as_view(), name='Book-Trip'),
-    path('bookedtrips/', BookedTripView.as_view(), name='Booked-Trips'),
+    path('bookedtrips/', BookedTripsListView.as_view(), name='Booked-Trips'),
     path('logout',user_logout,name='logout'),
+    
 ]
+
